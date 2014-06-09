@@ -28,6 +28,7 @@
 
 #define LOG_TAG "Netd"
 
+#include <cutils/properties.h>
 #include "cutils/log.h"
 
 #include "CommandListener.h"
@@ -46,9 +47,13 @@ int main() {
     NetlinkManager *nm;
     DnsProxyListener *dpl;
     MDnsSdListener *mdnsl;
+    char nvReady[255] = {0};
 
     ALOGI("Netd 1.0 starting");
 
+    property_set("nvram_init", "Ready");
+    property_get("nvram_init", nvReady, "");
+    ALOGD("nvram_init set to (%s)", nvReady);
 //    signal(SIGCHLD, sigchld_handler);
     blockSigpipe();
 
